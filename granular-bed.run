@@ -1,0 +1,73 @@
+variable indx loop 1 16
+
+echo screen
+
+units lj
+
+dimension 3
+atom_style hybrid molecular sphere
+boundary  p p f
+newton  off
+
+read_data  ${indx}.bed.data
+
+#simulation variables
+
+variable  Rcell      equal  0.75
+variable  Rparticle  equal  1.00/2
+variable  Li         equal  ${Rcell}*4
+
+variable  temp       equal  0.0
+variable  damp       equal  ${Rcell}^2
+variable  timestep   equal  0.001
+variable  numsteps   equal  1000000
+
+variable  Kpp        equal  (2*${Rparticle})*10^2
+variable  gravity    equal  1.0
+variable  Fmax       equal  (((82/32)*(${Li}/2))^3)/43
+variable  dampK      equal  (${Fmax}/(5*10^(-2)*${Rcell}))
+
+variable  seed       equal  82514877
+
+  dump positions all custom 1000 ${indx}.bed.dump id type x y z radius
+   
+fix wall all wall/gran granular hooke ${Kpp} ${dampK} tangential linear_nohistory 0.0 0.0 zplane 0.0 NULL
+
+fix integrator all nve
+fix 1 all langevin ${temp} ${temp} ${damp} ${seed}
+
+fix grav all gravity ${gravity} vector 0 0 -1
+
+compute  msda all msd 
+
+compute  atmKE  all  ke/atom
+compute  atmPE  all  pe/atom
+
+compute  sumKE  all  reduce sum c_atmKE
+compute  sumPE  all  reduce sum c_atmPE
+
+pair_style granular
+pair_coeff * * hooke ${Kpp} ${dampK} tangential linear_nohistory 0.0 0.0
+
+comm_modify vel yes
+
+thermo 10000
+timestep ${timestep}
+log  ${indx}.bed.thermo
+thermo_style  custom step c_sumKE c_sumPE c_msda[4]
+run 10000000
+
+variable  Kpp  delete
+variable  Kpp  equal  (2*${Rparticle})*10^4
+
+pair_style granular
+pair_coeff * * hooke ${Kpp} ${dampK} tangential linear_nohistory 0.0 0.0
+
+timestep 0.001
+run ${numsteps}
+
+write_data ${indx}.data.granular_bed
+
+clear
+next           indx
+jump           SELF

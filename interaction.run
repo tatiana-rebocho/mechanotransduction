@@ -1,0 +1,7 @@
+pair_style hybrid granular ${cutoff} zero ${cutoff}
+pair_coeff 1 1 granular hooke ${Kpp} ${dampK} tangential linear_nohistory 0.0 0.0
+pair_coeff 2*7 2*7 zero
+pair_coeff 1 2 granular hooke ${Kcp} ${dampK} tangential linear_nohistory 0.0 0.0
+pair_coeff 1 6*7 granular hooke ${Kcp} ${dampK} tangential linear_nohistory 0.0 0.0
+pair_coeff 1 3*5 granular hooke ${KcpMin} ${dampK} tangential linear_nohistory 0.0 0.0
+pair_coeff * 8 zero

@@ -1,0 +1,10 @@
+echo screen
+
+units lj
+
+dimension 3
+atom_style hybrid molecular sphere
+boundary  p p f
+newton  off
+
+read_data  ${bedID}.data.granular_bed extra/bond/per/atom 100 extra/special/per/atom 150

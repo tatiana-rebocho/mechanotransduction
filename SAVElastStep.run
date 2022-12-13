@@ -1,0 +1,4 @@
+group finalCell type 7 2
+  dump finalCell finalCell custom 100 ${bedID}.${runindx}.finalCell.dump id x y z radius
+  dump_modify finalCell first yes
+run 0

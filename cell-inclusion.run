@@ -1,0 +1,22 @@
+read_data       ${runindx}.cell.data add 1200 1200
+  
+set type 2 mass ${cellMass}
+set type 3 mass ${reducedMass}
+set type 4 mass ${reducedMass}
+
+include interaction.run
+
+bond_style harmonic
+bond_coeff 1 ${bondK} ${r1}
+bond_coeff 2 ${bondK} ${r2}
+bond_coeff 3 ${bondKdr} ${r3}
+bond_coeff 4 ${bondKdr} ${r4}
+bond_coeff 5 ${bondKdr} ${r5}
+bond_coeff 6 ${bondKdr} ${r6}
+bond_coeff 7 ${bondmc} ${r7}
+bond_coeff 8 ${bondinit} ${r7}
+
+fix grav all gravity 1.0 vector 0 0 -1
+
+timestep  ${timestep}
+run  0	

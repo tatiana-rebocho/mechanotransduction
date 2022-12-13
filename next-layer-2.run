@@ -1,0 +1,16 @@
+set type 4 mass ${cellMass}
+set type 4 type/ratio 2 1 ${seed}
+
+bond_style harmonic
+bond_coeff 1 ${bondK} ${dr1}
+bond_coeff 2 ${bondK} ${dr2}
+bond_coeff 3 ${bondK} ${dr3}
+bond_coeff 4 ${bondK} ${dr4}
+bond_coeff 5 ${bondK} ${r5}
+bond_coeff 6 ${bondK} ${r6}
+bond_coeff 7 ${bondmc} ${r7}
+bond_coeff 8 ${bondinit} ${r7}
+
+#need to modify interaction
+
+run  0

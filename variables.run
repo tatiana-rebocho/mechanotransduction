@@ -1,0 +1,41 @@
+variable  Rcell      equal  0.75
+variable  Rparticle  equal  10.00/2
+variable  sumRadius  equal  ${Rcell}+${Rparticle}
+variable  Li         equal  ${Rcell}*4
+
+variable  temperature  equal  0.0
+variable  damp         equal  ${Rcell}^2
+variable  timestep     equal  0.001
+variable  numstepsBed  equal  150000
+variable  numsteps     equal  20000
+
+variable  seed  equal  82514877
+
+variable  r1  equal  0.75
+variable  r2  equal  0.75
+variable  r3  equal  0.7995
+variable  r4  equal  0.7765
+variable  r5  equal  0.7876
+variable  r6  equal  0.5874
+variable  r7  equal  0.75
+
+variable  gravity  equal  1.0
+
+variable  cellMass     equal  ${Rcell}^3
+variable  reducedMass  equal  ${cellMass}/1000
+
+variable  particleMass  equal  ${Rparticle}^3
+variable  effMass       equal  (${cellMass}*${particleMass})/(${cellMass}+${particleMass})
+
+variable  Fmax  equal  (((82/32)*(${Li}/2))^3)/43
+
+variable  bondK     equal  (10^2*${Rcell}^2)
+variable  bondKdr   equal  ${bondK}/1000
+variable  bondmc    equal  ${Fmax}/(10^(-4))
+variable  bondinit  equal  ${bondmc}/1000
+
+variable  Kpp     equal  (2*${Rparticle})*10^4
+variable  Kcp     equal  (2*(${Rparticle}))^2*10^2 
+variable  KcpMin  equal  ${Kcp}/1000
+variable  dampK   equal  (${Fmax}/(5*10^(-2)*${Rcell})) 
+variable  cutoff  equal  3*(${Rparticle}+${Rcell}) 
